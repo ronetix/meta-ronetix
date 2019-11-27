@@ -14,7 +14,7 @@ DEPENDS += "lzop-native bc-native"
 
 SRCBRANCH = "imx_4.19.35_1.0.0"
 LOCALVERSION = "-${SRCBRANCH}"
-KERNEL_SRC ?= "git://github.com/ronetix/linux-ronetix.git;protocol=https"
+KERNEL_SRC ?= "git://github.com/ronetix/linux.git;protocol=https"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
 SRCREV = "${AUTOREV}"
 
