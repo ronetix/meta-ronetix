@@ -7,7 +7,7 @@ New headers are installed in ${includedir}/imx."
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
-SRCBRANCH = "imx_4.19.35_1.0.0"
+SRCBRANCH = "imx_4.19.35_1.1.0"
 LOCALVERSION = "-${SRCBRANCH}"
 
 KERNEL_SRC ?= "git://github.com/ronetix/linux.git;protocol=https"
