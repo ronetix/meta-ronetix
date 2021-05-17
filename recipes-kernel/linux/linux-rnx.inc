@@ -37,6 +37,7 @@ KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
 DEPENDS += "lzop-native bc-native"
 
 SRC_URI = "git://github.com/ronetix/linux.git;branch=${SRCBRANCH}"
+#SRC_URI = "git:///home/git-repos/linux.git;branch=${SRCBRANCH}"
 
 LOCALVERSION = "-rnx"
 
