@@ -9,7 +9,7 @@ DEPENDS += " \
 
 UBOOT_SRC ?= "git://github.com/ronetix/u-boot.git;protocol=https"
 SRCBRANCH = "lf_v2023.04"
-SRCREV = "a96bfb94eaf6dbf58068232bb33472375046a57b"
+SRCREV = "a5d7eccfe25be9662754745ef607896ac22c8dd5"
 
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
 
