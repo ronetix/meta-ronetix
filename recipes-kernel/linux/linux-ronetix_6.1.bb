@@ -33,10 +33,6 @@ SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-LOCALVERSION = "-imx93"
-
-KBUILD_DEFCONFIG:mx9-nxp-bsp = "rnx_imx93_osm_defconfig"
-
 pkg_postinst:kernel-devicetree:append () {
    rm -f $D/boot/devicetree-*
 }
