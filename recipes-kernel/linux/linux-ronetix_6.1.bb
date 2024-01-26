@@ -18,14 +18,14 @@ DEFAULT_PREFERENCE = "1"
 
 KERNEL_SRC ?= "git://github.com/ronetix/linux.git;protocol=https"
 SRCBRANCH = "lf-6.1.y"
-SRCREV = "a1f94c0e402596d9862590eff689926cc80f022f"
+SRCREV = "c228a9d5fe1302f4126478255daa46851731acc1"
 
 # PV is defined in the base in linux-imx.inc file and uses the LINUX_VERSION definition
 # required by kernel-yocto.bbclass.
 #
 # LINUX_VERSION define should match to the kernel version referenced by SRC_URI and
 # should be updated once patchlevel is merged.
-LINUX_VERSION = "-lts-6.1.36"
+LINUX_VERSION = "-lts-6.1.55"
 
 #KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig"
 
