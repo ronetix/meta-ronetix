@@ -18,7 +18,7 @@ DEFAULT_PREFERENCE = "1"
 
 KERNEL_SRC ?= "git://github.com/ronetix/linux.git;protocol=https"
 SRCBRANCH = "lf-6.1.y"
-SRCREV = "c228a9d5fe1302f4126478255daa46851731acc1"
+SRCREV = "177761a51c6430a37fc71633467e0939d386c8eb"
 
 # PV is defined in the base in linux-imx.inc file and uses the LINUX_VERSION definition
 # required by kernel-yocto.bbclass.
