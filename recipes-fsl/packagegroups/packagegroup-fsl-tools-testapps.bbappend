@@ -26,6 +26,7 @@ RDEPENDS_${PN} += " \
         minicom \
         coreutils \
         mmc-utils \
+        phytool \
         udev-extraconf \
         e2fsprogs-resize2fs \
         openssl-bin \
