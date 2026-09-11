@@ -7,6 +7,7 @@ SRCREV_FORMAT = "linux-firmware"
 SRC_URI_append = " \
 	file://brcm/brcmfmac43456-sdio.bin \
 	file://brcm/brcmfmac43456-sdio.txt \
+	file://brcm/brcmfmac43456-sdio.clm_blob \
 	file://brcm/brcmfmac4339-sdio.bin \
 	file://brcm/brcmfmac4339-sdio.txt \
 "
