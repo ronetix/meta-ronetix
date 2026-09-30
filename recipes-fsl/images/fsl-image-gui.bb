@@ -7,7 +7,7 @@ demos and lots of applications. This creates a very large image, not \
 suitable for production."
 LICENSE = "MIT"
 
-inherit core-image features_check
+inherit core-image
 
 ### WARNING: This image is NOT suitable for production use and is intended
 ###          to provide a way for users to reproduce the image used during
@@ -18,7 +18,10 @@ IMAGE_FEATURES += " \
     package-management \
     ssh-server-dropbear \
     hwcodecs \
-    debug-tweaks \
+    allow-empty-password \
+    allow-root-login \
+    empty-root-password \
+    post-install-logging \
     nfs-server \
     tools-debug \
     eclipse-debug \
@@ -49,16 +52,16 @@ CORE_IMAGE_EXTRA_INSTALL += " \
 "
 
 # only for Android enabled machines
-IMAGE_INSTALL_append_imxgpu3d = " \
+IMAGE_INSTALL:append:imxgpu3d = " \
 	android-tools \
 "
 
 # only for DRM enabled machines
-IMAGE_INSTALL_append_imxdrm = " \
+IMAGE_INSTALL:append:imxdrm = " \
 	libdrm-tests \
 "
 
-CORE_IMAGE_EXTRA_INSTALL_append_mx8 = "\
+CORE_IMAGE_EXTRA_INSTALL:append:mx8-generic-bsp = "\
     packagegroup-fsl-tools-gpu \
 "
 
@@ -66,4 +69,4 @@ systemd_disable_vt () {
     rm ${IMAGE_ROOTFS}${root_prefix}${sysconfdir}/systemd/system/getty.target.wants/getty@tty*.service
 }
 
-IMAGE_PREPROCESS_COMMAND_append = " ${@ 'systemd_disable_vt;' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and bb.utils.contains('USE_VT', '0', True, False, d) else ''} "
+IMAGE_PREPROCESS_COMMAND:append = " ${@ 'systemd_disable_vt;' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and bb.utils.contains('USE_VT', '0', True, False, d) else ''} "

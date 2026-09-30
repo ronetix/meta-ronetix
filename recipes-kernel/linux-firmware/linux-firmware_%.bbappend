@@ -1,29 +1,26 @@
-# Support additional firmware for WIFI+BT modules
+# Firmware of the Broadcom WiFi/Bluetooth modules on the Ronetix SoMs
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRCREV_FORMAT = "linux-firmware"
-
-SRC_URI_append = " \
-	file://brcm/brcmfmac43456-sdio.bin \
-	file://brcm/brcmfmac43456-sdio.txt \
-	file://brcm/brcmfmac43456-sdio.clm_blob \
-	file://brcm/brcmfmac4339-sdio.bin \
-	file://brcm/brcmfmac4339-sdio.txt \
+SRC_URI:append = " \
+    file://brcm/brcmfmac43456-sdio.bin \
+    file://brcm/brcmfmac43456-sdio.txt \
+    file://brcm/brcmfmac43456-sdio.clm_blob \
+    file://brcm/brcmfmac4339-sdio.bin \
+    file://brcm/brcmfmac4339-sdio.txt \
 "
-do_install_append() {
-	install -d ${D}${nonarch_base_libdir}/firmware/brcm
-	install -m 0755 ${WORKDIR}/brcm/* ${D}${nonarch_base_libdir}/firmware/brcm/
+
+do_install:append() {
+    install -d ${D}${nonarch_base_libdir}/firmware/brcm
+    install -m 0644 ${UNPACKDIR}/brcm/brcmfmac* ${D}${nonarch_base_libdir}/firmware/brcm/
 }
 
-FILES_${PN}-bcm43456 = " \
-  ${nonarch_base_libdir}/firmware/brcm/brcmfmac43456-sdio.* \
-"
+PACKAGES =+ "${PN}-bcm43456"
 
-FILES_${PN}-bcm4339 = " \
-  ${nonarch_base_libdir}/firmware/brcm/brcmfmac4339-sdio.* \
-"
+FILES:${PN}-bcm43456 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43456-sdio.*"
+LICENSE:${PN}-bcm43456 = "Firmware-broadcom_bcm43xx"
+RDEPENDS:${PN}-bcm43456 += "${PN}-broadcom-license"
 
-RDEPENDS_${PN}-bcm43456 += "${PN}-broadcom-license"
-LICENSE_${PN}-bcm43456 += "Firmware-broadcom_bcm43xx"
-PACKAGES =+ " ${PN}-bcm43456"
+# keep the upstream files of the package (e.g. cypress/cyfmac4339-sdio.bin),
+# add the NVRAM file
+FILES:${PN}-bcm4339 += "${nonarch_base_libdir}/firmware/brcm/brcmfmac4339-sdio.txt"
