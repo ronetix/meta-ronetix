@@ -1,0 +1,9 @@
+# Options of syslogd (sysklogd)
+#   -l  keep the kernel logging to the console, otherwise syslogd turns it
+#       off and the kernel messages are not shown on the serial console
+
+# systemd: syslogd.service
+SYSLOGD_OPTS="-l"
+
+# SysV init: /etc/init.d/syslog
+SYSLOGD="-l"
