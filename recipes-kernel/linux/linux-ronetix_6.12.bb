@@ -13,7 +13,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 SRC_URI = "git://github.com/ronetix/linux.git;branch=${KBRANCH};protocol=https"
 KBRANCH = "ronetix/6.12.x+fslc"
-SRCREV = "d87fa91a9aa498d297da2a0f68019d577a32e135"
+SRCREV = "7ebb00bb35a648cc18daf346e1ab195fc202f04f"
 
 # Drivers used by the Ronetix device trees, which are not enabled in
 # defconfig (i.MX8M) or imx_v6_v7_defconfig (i.MX7)
