@@ -1,0 +1,14 @@
+[Unit]
+Description=Grow the root filesystem to fill the storage device
+Documentation=file:///usr/sbin/ronetix-growfs
+After=local-fs.target
+ConditionPathIsReadWrite=/
+ConditionVirtualization=!container
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/ronetix-growfs
+
+[Install]
+WantedBy=multi-user.target

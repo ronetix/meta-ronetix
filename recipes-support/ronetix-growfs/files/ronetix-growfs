@@ -1,0 +1,67 @@
+#!/bin/sh
+#
+# Grow the root partition and its filesystem to the size of the storage
+# device. The Ronetix i.MX9 SoMs ship with 4, 8 or 16 GB eMMC, while the
+# .wic image is built to the size of the root filesystem only (see
+# "part / --source rootfs" in imx-imx-boot-bootpart.wks, which has no
+# --fixed-size). One image therefore flashes onto every variant, and this
+# script claims the remaining space on first boot.
+#
+# It is idempotent by geometry, not by a stamp file: if the partition
+# already reaches the end of the device there is nothing to do, so a
+# stale stamp can never make it skip a resize or repeat one.
+#
+set -eu
+
+SLACK_SECTORS=$((16 * 1024 * 1024 / 512))	# 16 MiB: GPT backup + rounding
+
+log() { echo "ronetix-growfs: $*"; }
+
+root_src=$(findmnt -no SOURCE / 2>/dev/null || true)
+case "$root_src" in
+	/dev/mmcblk*p[0-9]*)
+		disk=${root_src%p*}
+		pnum=${root_src##*p}
+		;;
+	/dev/sd[a-z][0-9]*)
+		disk=$(printf '%s' "$root_src" | sed 's/[0-9]*$//')
+		pnum=$(printf '%s' "$root_src" | sed 's|.*[^0-9]||')
+		;;
+	*)
+		log "root is \"$root_src\", not a partition we can grow - nothing to do"
+		exit 0
+		;;
+esac
+
+[ -b "$disk" ] || { log "$disk is not a block device"; exit 0; }
+
+disk_sectors=$(cat "/sys/class/block/${disk#/dev/}/size")
+part_start=$(cat "/sys/class/block/${root_src#/dev/}/start")
+part_sectors=$(cat "/sys/class/block/${root_src#/dev/}/size")
+part_end=$((part_start + part_sectors))
+free=$((disk_sectors - part_end))
+
+log "$root_src ends at sector $part_end, $disk has $disk_sectors sectors ($free free)"
+
+if [ "$free" -lt "$SLACK_SECTORS" ]; then
+	log "already fills the device - nothing to do"
+	exit 0
+fi
+
+# Extend the partition to the end of the device. "-N $pnum" rewrites only
+# that entry; an empty start keeps it where it is and "+" takes all the
+# remaining space. --no-reread/--force are needed because the filesystem
+# on this very partition is mounted, so sfdisk cannot re-read the table
+# itself. Rewriting the table also puts the GPT backup header at the real
+# end of the device, which silences the kernel's boot-time
+#   GPT:Primary header thinks Alt. header is not at the end of the disk.
+printf ', +\n' | sfdisk --no-reread --force -N "$pnum" "$disk"
+
+# Tell the kernel the partition got bigger. BLKRRPART would fail on a
+# disk with mounted partitions, partx updates the single entry instead.
+partx -u "$disk"
+
+# ext4 grows online, so the mounted root can be resized in place.
+resize2fs "$root_src"
+
+log "done: $(df -h / | tail -1)"
