@@ -31,6 +31,10 @@ IMAGE_FEATURES += " \
                                                        '', d), d)} \
 "
 
+# nodejs is deliberately not in this list: it is one of the heaviest
+# compiles in the tree (~3000 objects) and on a clean build it ends up the
+# sole item on the critical path, while nothing in the images needs
+# Node.js on the target. Add it back here if a product image does.
 CORE_IMAGE_EXTRA_INSTALL += " \
 	packagegroup-core-full-cmdline \
 	packagegroup-tools-bluetooth \
@@ -45,7 +49,6 @@ CORE_IMAGE_EXTRA_INSTALL += " \
 	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'weston-init', \
 	   bb.utils.contains('DISTRO_FEATURES',     'x11', 'packagegroup-core-x11-sato-games', \
 							 '', d), d)} \
-	nodejs \
 	screen \
 	tcf-agent \
 	openssh-sftp-server \
