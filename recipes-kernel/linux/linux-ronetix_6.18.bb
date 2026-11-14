@@ -19,7 +19,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 SRC_URI = "git://github.com/ronetix/linux.git;branch=${KBRANCH};protocol=https"
 KBRANCH = "ronetix/6.18-1.0.x-imx"
 
-SRCREV = "44793c90949abdecf42690aa84f26b21326f940d"
+SRCREV = "7854b3da162446f54240b97b2b2f0a04d5de69fb"
 
 # Must match the kernel version of SRCREV, linux-fslc-imx_6.18.bb pins
 # an older commit of the same branch (6.18.24)
