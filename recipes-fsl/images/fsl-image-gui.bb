@@ -54,6 +54,15 @@ CORE_IMAGE_EXTRA_INSTALL += " \
 	openssh-sftp-server \
 "
 
+# v4l2-ctl and media-ctl, for bringing up the MIPI CSI camera. NXP's own
+# fsl-image-gui of the i.MX BSP gets them through imx-test, which the
+# community BSP does not have, so without this the image has no way to
+# enumerate a capture device.
+CORE_IMAGE_EXTRA_INSTALL += " \
+	v4l-utils \
+	media-ctl \
+"
+
 # only for Android enabled machines
 IMAGE_INSTALL:append:imxgpu3d = " \
 	android-tools \
